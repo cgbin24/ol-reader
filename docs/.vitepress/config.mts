@@ -44,12 +44,13 @@ export default defineConfig({
       }
     },
     optimizeDeps: {
-      include: ['pdfjs-dist', 'vue-pdf-embed', 'CNAME'],
+      include: ['pdfjs-dist', 'vue-pdf-embed'],
     },
   
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    logo: '/static/favicon.png',
     nav: [
       { text: '主页', link: '/' },
       { text: '目录', link: '/i-reader' }
