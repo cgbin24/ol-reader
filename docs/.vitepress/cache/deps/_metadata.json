@@ -1,0 +1,73 @@
+{
+  "hash": "9475aa95",
+  "configHash": "de6573b3",
+  "lockfileHash": "38dbc52e",
+  "browserHash": "d97ad691",
+  "optimized": {
+    "vue": {
+      "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "badad233",
+      "needsInterop": false
+    },
+    "vitepress > @vue/devtools-api": {
+      "src": "../../../../node_modules/@vue/devtools-api/dist/index.js",
+      "file": "vitepress___@vue_devtools-api.js",
+      "fileHash": "db515d09",
+      "needsInterop": false
+    },
+    "vitepress > @vueuse/core": {
+      "src": "../../../../node_modules/@vueuse/core/index.mjs",
+      "file": "vitepress___@vueuse_core.js",
+      "fileHash": "514b9db6",
+      "needsInterop": false
+    },
+    "pdfjs-dist": {
+      "src": "../../../../node_modules/pdfjs-dist/build/pdf.mjs",
+      "file": "pdfjs-dist.js",
+      "fileHash": "be051590",
+      "needsInterop": false
+    },
+    "vue-pdf-embed": {
+      "src": "../../../../node_modules/vue-pdf-embed/dist/index.mjs",
+      "file": "vue-pdf-embed.js",
+      "fileHash": "c016ddfc",
+      "needsInterop": false
+    },
+    "@theme/index": {
+      "src": "../../../../node_modules/vitepress/dist/client/theme-default/index.js",
+      "file": "@theme_index.js",
+      "fileHash": "c4c0924c",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "https-FF5J5RVY": {
+      "file": "https-FF5J5RVY.js"
+    },
+    "url-KRTBVK5G": {
+      "file": "url-KRTBVK5G.js"
+    },
+    "canvas-QMBQ2QKW": {
+      "file": "canvas-QMBQ2QKW.js"
+    },
+    "dist-F3KFG4X7": {
+      "file": "dist-F3KFG4X7.js"
+    },
+    "chunk-3GWFAK3U": {
+      "file": "chunk-3GWFAK3U.js"
+    },
+    "chunk-VVXGHQ7A": {
+      "file": "chunk-VVXGHQ7A.js"
+    },
+    "fs-XRNDEFO5": {
+      "file": "fs-XRNDEFO5.js"
+    },
+    "http-5ACNIDDJ": {
+      "file": "http-5ACNIDDJ.js"
+    },
+    "chunk-BUSYA2B4": {
+      "file": "chunk-BUSYA2B4.js"
+    }
+  }
+}
