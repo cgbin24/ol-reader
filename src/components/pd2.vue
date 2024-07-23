@@ -14,6 +14,13 @@
       <div class="page-tool-item" @click="pageZoomIn">-</div>
       <div class="page-tool-item" @click="showAction = false">x</div> -->
     </div>
+    <!-- loading -->
+    <div v-if="loading" class="loading">
+      <div class="loading-content">
+        <div class="loading-icon"></div>
+        <div class="loading-text">Loading...</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,10 +40,11 @@ const state = reactive({
   source: props.src,
   pageNum: 1,
   scale: 1,
-  numPages: 0,
+  numPages: 1,
 });
 const showAction = ref(true);
 const pWrapRef = ref(null);
+const loading = ref(false);
 
 const lastPage = () => {
   if (state.pageNum > 1) {
@@ -67,7 +75,10 @@ const pageZoomIn = () => {
 };
 
 onMounted(async () => {
-  init();
+  loading.value = true;
+  setTimeout(() => {
+    init();
+  }, 1000);
 });
 
 const init = async () => {
@@ -80,6 +91,8 @@ const init = async () => {
     }
   } catch (error) {
     console.error('Error initializing PDF viewer:', error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -107,6 +120,7 @@ const renderPage = async () => {
         };
 
         await page.render(renderContext).promise;
+        loading.value = false;
       }
     }
   } catch (error) {
@@ -153,4 +167,42 @@ const updateCanvas = async () => {
     color: #fff;
   }
 }
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    .loading-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      border-top-color: #ccc;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    .loading-text {
+      color: #fff;
+    }
+  }
+}
+
 </style>
