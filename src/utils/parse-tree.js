@@ -57,12 +57,16 @@ function treeToMd(treeObj, dir) {
 
 // md文件模板
 const mdTemp = (path) => {
-  // console.log(path);
+  console.log(1);
+  console.log(path);
+  // <PdfViewer pdfUrl="${path}"/>
   return `
-<PdfViewer pdfUrl="${path}"/>
+<PdfViewer src="${path}"/>
 
 <script setup>
-  import PdfViewer from '/components/pdfViewer.vue'
+  // import PdfViewer from '/components/pdfViewer.vue'
+  // import PdfViewer from '/components/pv.vue'
+  import PdfViewer from '/components/pd2.vue'
 </script>
   `
 }

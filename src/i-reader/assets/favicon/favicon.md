@@ -1,5 +1,5 @@
 
-<PdfViewer src="/ruankao/16.未来信息综合技术.pdf"/>
+<PdfViewer src="/assets/favicon/favicon.ico"/>
 
 <script setup>
   // import PdfViewer from '/components/pdfViewer.vue'

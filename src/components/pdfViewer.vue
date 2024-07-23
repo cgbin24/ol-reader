@@ -18,6 +18,7 @@ import VuePdfEmbed from "vue-pdf-embed";
 import { getDocument, GlobalWorkerOptions, version } from "pdfjs-dist";
 import { reactive, onMounted, computed, ref, nextTick } from "vue";
 
+
 const props = defineProps({
   pdfUrl: {
     type: String,
@@ -54,12 +55,14 @@ const pageZoomIn = () => {
   }
 }
 onMounted(() => {
-  nextTick(() => {
-    GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.mjs`;
-    const loadingTask = getDocument(state.source);
-    loadingTask.promise.then((pdf) => {
-        state.numPages = pdf.numPages;
-    });
+  nextTick(async () => {
+    try {
+      GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.mjs`;
+      const pdf = await getDocument(state.source).promise
+      state.numPages = pdf.numPages;
+    } catch (error) {
+      console.log(error);
+    }
   })
 });
 

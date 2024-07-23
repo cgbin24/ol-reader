@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { parseTree, treeToMd } from '../../src/utils/parse-tree'
+import topLevelAwait from 'vite-plugin-top-level-await'
 
 // https://vitepress.dev/reference/site-config
 const basePath = '/i-reader'
@@ -8,11 +9,44 @@ export default defineConfig({
   description: "online reader",
   srcDir: '../src',
   outDir: '../dist',
+  
+  head: [
+    ['link', { rel: 'icon', href: '/static/favicon.ico' }],
+    ['link', { rel: 'stylesheet', href: '/static/reset.scss' }],
+    ['meta', { name: 'author', content: 'cgbin24' }],
+    ['meta', { name: 'keywords', content: 'i-Reader, online reader' }],
+    ['meta', { name: 'description', content: 'i-Reader, online reader' }],
+  ],
   vite: {
     server: {
       host: '0.0.0.0',
       port: 1000,
-    }
+    },
+    plugins: [
+      topLevelAwait({
+          promiseExportName: '__tla',
+          promiseImportName: (i) => `__tla_${i}`
+      })
+    ],
+    build: {
+      commonjsOptions: {
+        ignore: ['pdfjs-dist/build/pdf.js', 'pdfjs-dist/build/pdf.worker.js']
+      },
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              return id.toString().split('node_modules/')[1].split('/')[0].toString();
+            }
+          }
+        }
+      }
+    },
+    optimizeDeps: {
+      include: ['pdfjs-dist', 'vue-pdf-embed'],
+    },
+  
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -20,13 +54,13 @@ export default defineConfig({
       { text: '主页', link: '/' },
       { text: '目录', link: '/i-reader' }
     ],
-    sidebar: parseTree('./src/public').map(item => {
+    sidebar: parseTree('./src/public')?.map(item => {
       treeToMd(item, './src/'+basePath)
       return {
         text: item.name,
         // collapsible: true,
         // collapsed: true,
-        items: item.children.map(child => {
+        items: item.children?.map(child => {
           return {
             // 将文件名后缀去掉
             text: child.name.replace(/\.\w+$/, ''),
