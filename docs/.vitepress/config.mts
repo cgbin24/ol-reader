@@ -44,7 +44,7 @@ export default defineConfig({
       }
     },
     optimizeDeps: {
-      include: ['pdfjs-dist', 'vue-pdf-embed'],
+      include: ['pdfjs-dist', 'vue-pdf-embed', 'CNAME'],
     },
   
   },
