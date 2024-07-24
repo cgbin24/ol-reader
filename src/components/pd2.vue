@@ -84,12 +84,22 @@ const pageZoomIn = () => {
   }
 };
 
+const fetchWithTimeout = (url, timeout = 10000) => {
+  return Promise.race([
+    fetch(url),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(showToast('Request timed out')), timeout)
+    ),
+  ]);
+}
+
+
 const init = async () => {
   try {
     if (canvas.value) {
       showToast('init')
       
-      const pdf = await getDocument(props.src).promise;
+      const pdf = await getDocument({url: props.src, fetch: fetchWithTimeout}).promise;
       showToast('init getDocument')
       state.numPages = pdf.numPages;
       await renderPage();
