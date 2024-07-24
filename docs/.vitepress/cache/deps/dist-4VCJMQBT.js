@@ -1,4 +1,4 @@
-import "./chunk-BUSYA2B4.js";
+import "./chunk-KPM4MXSK.js";
 
 // node_modules/path2d/dist/index.js
 var ARG_LENGTH = {
@@ -518,4 +518,4 @@ export {
   parsePath,
   roundRect
 };
-//# sourceMappingURL=dist-F3KFG4X7.js.map
+//# sourceMappingURL=dist-4VCJMQBT.js.map

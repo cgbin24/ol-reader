@@ -26,10 +26,9 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
-import { getDocument, GlobalWorkerOptions, version } from 'pdfjs-dist';
-import vconsole from 'vconsole';
-
-new vconsole();
+import { getDocument, GlobalWorkerOptions, version } from 'pdfjs-dist/legacy/build/pdf';
+// import { getDocument, GlobalWorkerOptions, version } from 'pdfjs-dist';
+GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
 
 const props = defineProps({
   src: {
@@ -48,6 +47,14 @@ const state = reactive({
 const showAction = ref(true);
 const pWrapRef = ref(null);
 const loading = ref(false);
+
+onMounted(async () => {
+  showToast('init GlobalWorkerOptions')
+  loading.value = true;
+  setTimeout(() => {
+    init();
+  }, 1000);
+});
 
 const lastPage = () => {
   if (state.pageNum > 1) {
@@ -77,29 +84,26 @@ const pageZoomIn = () => {
   }
 };
 
-onMounted(async () => {
-  loading.value = true;
-  setTimeout(() => {
-    init();
-  }, 1000);
-});
-
 const init = async () => {
   try {
     if (canvas.value) {
-      GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
+      showToast('init')
+      
       const pdf = await getDocument(props.src).promise;
+      showToast('init getDocument')
       state.numPages = pdf.numPages;
       await renderPage();
     }
   } catch (error) {
     console.error('Error initializing PDF viewer:', error);
+    showToast(error);
   } finally {
     loading.value = false;
   }
 };
 
 const renderPage = async () => {
+  showToast('renderPage')
   try {
     if (canvas.value) {
       const pdf = await getDocument(props.src).promise;
@@ -109,6 +113,7 @@ const renderPage = async () => {
       const context = canvas.value.getContext('2d');
 
       if (context) {
+        showToast('renderPage context')
         const outputScale = window.devicePixelRatio || 1;
         canvas.value.width = viewport.width * outputScale;
         canvas.value.height = viewport.height * outputScale;
@@ -124,6 +129,7 @@ const renderPage = async () => {
 
         await page.render(renderContext).promise;
         loading.value = false;
+        showToast('renderPage success')
       }
     }
   } catch (error) {
@@ -134,6 +140,12 @@ const renderPage = async () => {
 const updateCanvas = async () => {
   await renderPage();
 };
+
+const showToast = (msg) => {
+  alert(msg);
+  console.log(msg);
+};
+
 </script>
 
 <style lang="scss" scoped>

@@ -23,17 +23,19 @@ export default defineConfig({
       port: 1000,
     },
     plugins: [
-      topLevelAwait({
-          promiseExportName: '__tla',
-          promiseImportName: (i) => `__tla_${i}`
-      })
+      // topLevelAwait({
+      //     promiseExportName: '__tla',
+      //     promiseImportName: (i) => `__tla_${i}`
+      // })
     ],
     build: {
+      target: 'esnext',
       commonjsOptions: {
         ignore: ['pdfjs-dist/build/pdf.js', 'pdfjs-dist/build/pdf.worker.js']
       },
       chunkSizeWarningLimit: 1000,
       rollupOptions: {
+        // external: ['pdfjs-dist/build/pdf.js', 'pdfjs-dist/build/pdf.worker.js'],
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {

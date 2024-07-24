@@ -2,6 +2,7 @@
 import fs from 'fs'
 import path from 'path'
 
+
 // 解析目录树
 function parseTree(dir) {
   const files = fs.readdirSync(dir);

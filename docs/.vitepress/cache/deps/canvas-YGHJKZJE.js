@@ -1,6 +1,6 @@
 import {
   __commonJS
-} from "./chunk-BUSYA2B4.js";
+} from "./chunk-KPM4MXSK.js";
 
 // browser-external:canvas
 var require_canvas = __commonJS({
@@ -15,4 +15,4 @@ var require_canvas = __commonJS({
   }
 });
 export default require_canvas();
-//# sourceMappingURL=canvas-QMBQ2QKW.js.map
+//# sourceMappingURL=canvas-YGHJKZJE.js.map

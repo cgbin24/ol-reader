@@ -1,6 +1,6 @@
 import {
   __commonJS
-} from "./chunk-BUSYA2B4.js";
+} from "./chunk-KPM4MXSK.js";
 
 // browser-external:fs
 var require_fs = __commonJS({
@@ -15,4 +15,4 @@ var require_fs = __commonJS({
   }
 });
 export default require_fs();
-//# sourceMappingURL=fs-XRNDEFO5.js.map
+//# sourceMappingURL=fs-D7XOTJVE.js.map

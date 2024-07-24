@@ -1,67 +1,67 @@
 {
-  "hash": "f67f8ffb",
-  "configHash": "75573b65",
-  "lockfileHash": "6f34911c",
-  "browserHash": "cfa657ff",
+  "hash": "4cb2e449",
+  "configHash": "0fbeba2e",
+  "lockfileHash": "3a81a1c5",
+  "browserHash": "eeb2dedb",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "727dcd0f",
+      "fileHash": "a3d023d9",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/dist/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "b54e75b2",
+      "fileHash": "e62321ff",
       "needsInterop": false
     },
     "vitepress > @vueuse/core": {
       "src": "../../../../node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "d1060bec",
+      "fileHash": "1cd94ddc",
       "needsInterop": false
     },
     "pdfjs-dist": {
       "src": "../../../../node_modules/pdfjs-dist/build/pdf.mjs",
       "file": "pdfjs-dist.js",
-      "fileHash": "6c33c834",
+      "fileHash": "0db0ccaf",
       "needsInterop": false
     },
     "vue-pdf-embed": {
       "src": "../../../../node_modules/vue-pdf-embed/dist/index.mjs",
       "file": "vue-pdf-embed.js",
-      "fileHash": "2a30ddea",
+      "fileHash": "ce50f03a",
       "needsInterop": false
     },
     "@theme/index": {
       "src": "../../../../node_modules/vitepress/dist/client/theme-default/index.js",
       "file": "@theme_index.js",
-      "fileHash": "9ad93780",
+      "fileHash": "a2f2cf5e",
       "needsInterop": false
     },
-    "vconsole": {
-      "src": "../../../../node_modules/vconsole/dist/vconsole.min.js",
-      "file": "vconsole.js",
-      "fileHash": "448e3952",
-      "needsInterop": true
+    "pdfjs-dist/legacy/build/pdf": {
+      "src": "../../../../node_modules/pdfjs-dist/legacy/build/pdf.mjs",
+      "file": "pdfjs-dist_legacy_build_pdf.js",
+      "fileHash": "601daa35",
+      "needsInterop": false
     }
   },
   "chunks": {
-    "http-5ACNIDDJ": {
-      "file": "http-5ACNIDDJ.js"
+    "http-RAHQ4BDF": {
+      "file": "http-RAHQ4BDF.js"
     },
-    "https-FF5J5RVY": {
-      "file": "https-FF5J5RVY.js"
+    "https-GVBVESCW": {
+      "file": "https-GVBVESCW.js"
     },
-    "url-KRTBVK5G": {
-      "file": "url-KRTBVK5G.js"
+    "url-CPNWJTZD": {
+      "file": "url-CPNWJTZD.js"
     },
-    "canvas-QMBQ2QKW": {
-      "file": "canvas-QMBQ2QKW.js"
+    "canvas-YGHJKZJE": {
+      "file": "canvas-YGHJKZJE.js"
     },
-    "dist-F3KFG4X7": {
-      "file": "dist-F3KFG4X7.js"
+    "dist-4VCJMQBT": {
+      "file": "dist-4VCJMQBT.js"
     },
     "chunk-3GWFAK3U": {
       "file": "chunk-3GWFAK3U.js"
@@ -69,11 +69,11 @@
     "chunk-VVXGHQ7A": {
       "file": "chunk-VVXGHQ7A.js"
     },
-    "fs-XRNDEFO5": {
-      "file": "fs-XRNDEFO5.js"
+    "fs-D7XOTJVE": {
+      "file": "fs-D7XOTJVE.js"
     },
-    "chunk-BUSYA2B4": {
-      "file": "chunk-BUSYA2B4.js"
+    "chunk-KPM4MXSK": {
+      "file": "chunk-KPM4MXSK.js"
     }
   }
 }
