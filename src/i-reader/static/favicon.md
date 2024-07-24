@@ -1,5 +1,5 @@
 
-<PdfViewer src="/source/ruankao/5.计算机网络.pdf"/>
+<PdfViewer src="/static/favicon.png"/>
 
 <script setup>
   // import PdfViewer from '/components/pdfViewer.vue'
