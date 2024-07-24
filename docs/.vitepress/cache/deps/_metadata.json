@@ -1,47 +1,56 @@
 {
-  "hash": "a71fbe60",
+  "hash": "f67f8ffb",
   "configHash": "75573b65",
-  "lockfileHash": "38dbc52e",
-  "browserHash": "402d31e3",
+  "lockfileHash": "6f34911c",
+  "browserHash": "cfa657ff",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "bcb56261",
+      "fileHash": "727dcd0f",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/dist/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "b64549be",
+      "fileHash": "b54e75b2",
       "needsInterop": false
     },
     "vitepress > @vueuse/core": {
       "src": "../../../../node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "e91556cc",
+      "fileHash": "d1060bec",
       "needsInterop": false
     },
     "pdfjs-dist": {
       "src": "../../../../node_modules/pdfjs-dist/build/pdf.mjs",
       "file": "pdfjs-dist.js",
-      "fileHash": "af9b2469",
+      "fileHash": "6c33c834",
       "needsInterop": false
     },
     "vue-pdf-embed": {
       "src": "../../../../node_modules/vue-pdf-embed/dist/index.mjs",
       "file": "vue-pdf-embed.js",
-      "fileHash": "1a36d81f",
+      "fileHash": "2a30ddea",
       "needsInterop": false
     },
     "@theme/index": {
       "src": "../../../../node_modules/vitepress/dist/client/theme-default/index.js",
       "file": "@theme_index.js",
-      "fileHash": "bfb4d0be",
+      "fileHash": "9ad93780",
       "needsInterop": false
+    },
+    "vconsole": {
+      "src": "../../../../node_modules/vconsole/dist/vconsole.min.js",
+      "file": "vconsole.js",
+      "fileHash": "448e3952",
+      "needsInterop": true
     }
   },
   "chunks": {
+    "http-5ACNIDDJ": {
+      "file": "http-5ACNIDDJ.js"
+    },
     "https-FF5J5RVY": {
       "file": "https-FF5J5RVY.js"
     },
@@ -62,9 +71,6 @@
     },
     "fs-XRNDEFO5": {
       "file": "fs-XRNDEFO5.js"
-    },
-    "http-5ACNIDDJ": {
-      "file": "http-5ACNIDDJ.js"
     },
     "chunk-BUSYA2B4": {
       "file": "chunk-BUSYA2B4.js"

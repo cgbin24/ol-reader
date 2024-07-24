@@ -27,6 +27,9 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
 import { getDocument, GlobalWorkerOptions, version } from 'pdfjs-dist';
+import vconsole from 'vconsole';
+
+new vconsole();
 
 const props = defineProps({
   src: {

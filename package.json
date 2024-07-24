@@ -13,6 +13,7 @@
   "dependencies": {
     "pdfjs-dist": "^4.2.67",
     "sass": "^1.77.8",
+    "vconsole": "^3.15.1",
     "vue": "^3.4.32",
     "vue-pdf-embed": "^2.0.4"
   }
