@@ -56,12 +56,14 @@ export default defineConfig({
       { text: '目录', link: '/i-reader' }
     ],
     sidebar: parseTree('./src/public/source')?.map(item => {
-      treeToMd(item, './src/'+basePath)
+      treeToMd(item, './src'+basePath + '/source')
       return {
         text: item.name,
         // collapsible: true,
         // collapsed: true,
         items: item.children?.map(child => {
+          console.log('link: ',basePath + child.pPath.replace(/\.\w+$/, ''));
+          
           return {
             // 将文件名后缀去掉
             text: child.name.replace(/\.\w+$/, ''),

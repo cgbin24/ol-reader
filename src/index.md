@@ -12,7 +12,7 @@ hero:
       link: /i-reader
     - theme: alt
       text: 软考
-      link: /i-reader/ruankao/0.架构导学机试版
+      link: /i-reader/source/ruankao/0.架构导学机试版
 
 features:
   - title: 热爱
