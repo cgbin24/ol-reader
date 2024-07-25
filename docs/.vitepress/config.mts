@@ -13,7 +13,7 @@ export default defineConfig({
   
   head: [
     ['link', { rel: 'icon', href: '/static/favicon.ico' }],
-    ['link', { rel: 'stylesheet', href: '/static/reset.css' }],
+    // ['link', { rel: 'stylesheet', href: '/static/reset.css' }],
     ['meta', { name: 'author', content: 'cgbin24' }],
     ['meta', { name: 'keywords', content: 'i-Reader, online reader' }],
     ['meta', { name: 'description', content: 'i-Reader, online reader' }],

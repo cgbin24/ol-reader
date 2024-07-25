@@ -179,6 +179,7 @@ const renderPage = async () => {
 };
 
 const updateCanvas = async () => {
+  loading.value = true;
   await renderPage();
 };
 
@@ -190,6 +191,7 @@ const showToast = (msg) => {
 </script>
 
 <style lang="scss" scoped>
+@import url('/static/reset.css');
 .pdfPreview {
   position: relative;
   .pdfWrap {
