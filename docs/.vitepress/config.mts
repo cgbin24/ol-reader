@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { parseTree, treeToMd } from '../../src/utils/parse-tree'
 import topLevelAwait from 'vite-plugin-top-level-await'
+import pdfjsPatch from '../../src/utils/vite-plugin-pdfjs-fix'
 
 // https://vitepress.dev/reference/site-config
 const basePath = '/i-reader'
@@ -23,6 +24,7 @@ export default defineConfig({
       port: 1000,
     },
     plugins: [
+      // pdfjsPatch(),
       // topLevelAwait({
       //     promiseExportName: '__tla',
       //     promiseImportName: (i) => `__tla_${i}`
@@ -31,11 +33,11 @@ export default defineConfig({
     build: {
       target: 'esnext',
       commonjsOptions: {
-        ignore: ['pdfjs-dist/build/pdf.js', 'pdfjs-dist/build/pdf.worker.js']
+        ignore: ['pdfjs-dist']
       },
       chunkSizeWarningLimit: 1000,
       rollupOptions: {
-        // external: ['pdfjs-dist/build/pdf.js', 'pdfjs-dist/build/pdf.worker.js'],
+        // external: ['pdfjs-dist'],
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {

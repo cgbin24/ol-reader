@@ -16,8 +16,8 @@ import {
   toValue,
   watch,
   watchEffect
-} from "./chunk-VVXGHQ7A.js";
-import "./chunk-KPM4MXSK.js";
+} from "./chunk-JRY5TMZR.js";
+import "./chunk-BO4YYYGR.js";
 
 // node_modules/vue-pdf-embed/dist/index.mjs
 var mM = Object.defineProperty;

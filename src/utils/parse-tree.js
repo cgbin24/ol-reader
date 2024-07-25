@@ -66,8 +66,11 @@ const mdTemp = (path) => {
 
 <script setup>
   // import PdfViewer from '/components/pdfViewer.vue'
-  // import PdfViewer from '/components/pv.vue'
-  import PdfViewer from '/components/pd2.vue'
+  // import PdfViewer from '/components/plib.vue'
+  // import PdfViewer from '/components/p.vue'
+  // import PdfViewer from '/components/pd2.vue'
+  // import PdfViewer from '/components/pd.vue'
+  import PdfViewer from '/components/vP/index.vue'
 </script>
   `
 }
