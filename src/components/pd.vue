@@ -180,6 +180,9 @@ const renderPage = async () => {
 
 const updateCanvas = async () => {
   loading.value = true;
+  // 将上一次缓存的canvas清空
+  const context = canvas.value.getContext('2d');
+  context.clearRect(0, 0, canvas.value.width, canvas.value.height);
   await renderPage();
 };
 
