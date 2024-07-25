@@ -26,9 +26,16 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
-import { getDocument, GlobalWorkerOptions, version } from 'pdfjs-dist';
 // import { getDocument, GlobalWorkerOptions, version } from 'pdfjs-dist';
-GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
+// // import { getDocument, GlobalWorkerOptions, version } from 'pdfjs-dist';
+// GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
+import workerStr from './vP/worker?raw';
+import pdfjsLib from './vP/pdf?raw';
+import { base64_encode } from '../utils/base64';
+import { download as downloadFile, getUrl, loadScript } from '../utils/url';
+
+const pdfJsLibSrc = `data:text/javascript;base64,${(base64_encode(pdfjsLib))}`;
+const PdfJsWorkerSrc = `data:text/javascript;base64,${(base64_encode(workerStr))}`;
 
 const props = defineProps({
   src: {
@@ -51,10 +58,34 @@ const loading = ref(false);
 onMounted(async () => {
   showToast('init GlobalWorkerOptions')
   loading.value = true;
-  setTimeout(() => {
-    init();
-  }, 1000);
+  // setTimeout(() => {
+  //   init();
+  // }, 1000);
+  if (props.src) {
+    checkPdfLib().then(init).catch(e => {
+      console.warn(e);
+      loading.value = false;
+    });
+  }
 });
+
+const installPdfScript = () => {
+  return loadScript(pdfJsLibSrc).then(() => {
+    if (window.pdfjsLib) {
+      console.log('installPdfScript:', window.pdfjsLib);
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PdfJsWorkerSrc;
+    } else {
+      return Promise.reject('window.pdfjsLib未找到');
+    }
+  });
+}
+
+const checkPdfLib = () => {
+  if (window.pdfjsLib) {
+    return Promise.resolve();
+  }
+  return installPdfScript();
+}
 
 const lastPage = () => {
   if (state.pageNum > 1) {
@@ -98,8 +129,7 @@ const init = async () => {
   try {
     if (canvas.value) {
       showToast('init')
-      
-      const pdf = await getDocument({url: props.src, fetch: fetchWithTimeout}).promise;
+      const pdf = await window.pdfjsLib.getDocument({url: props.src, fetch: fetchWithTimeout}).promise;
       showToast('init getDocument')
       state.numPages = pdf.numPages;
       await renderPage();
@@ -116,7 +146,7 @@ const renderPage = async () => {
   showToast('renderPage')
   try {
     if (canvas.value) {
-      const pdf = await getDocument(props.src).promise;
+      const pdf = await window.pdfjsLib.getDocument(props.src).promise;
       const page = await pdf.getPage(state.pageNum);
       const viewport = page.getViewport({ scale: state.scale });
       console.log('viewport:', viewport);
@@ -124,7 +154,8 @@ const renderPage = async () => {
 
       if (context) {
         showToast('renderPage context')
-        const outputScale = window.devicePixelRatio || 1;
+        // const outputScale = window.devicePixelRatio || 1;
+        const outputScale = window.devicePixelRatio > 2 ? 1.5 : 2;
         canvas.value.width = viewport.width * outputScale;
         canvas.value.height = viewport.height * outputScale;
         canvas.value.style.width = `${pWrapRef.value.style.width}px`;
