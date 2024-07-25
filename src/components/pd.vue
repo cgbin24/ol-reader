@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, onBeforeUnmount } from 'vue';
 // import { getDocument, GlobalWorkerOptions, version } from 'pdfjs-dist';
 // // import { getDocument, GlobalWorkerOptions, version } from 'pdfjs-dist';
 // GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
@@ -67,6 +67,14 @@ onMounted(async () => {
       loading.value = false;
     });
   }
+});
+onBeforeUnmount(() => {
+  if (window.pdfjsLib === null) {
+    return;
+  }
+  window.pdfjsLib.destroy();
+  window.pdfjsLib = null;
+  loadingTask = null;
 });
 
 const installPdfScript = () => {
