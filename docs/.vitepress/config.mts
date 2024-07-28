@@ -67,7 +67,18 @@ export default defineConfig({
         // collapsed: true,
         items: item.children?.map(child => {
           console.log('link: ',basePath + child.pPath.replace(/\.\w+$/, ''));
-          
+          if (child.children && child.children.length) {
+            return {
+              text: child.name,
+              collapsed: true,
+              items: child.children.map(c => {
+                return {
+                  text: c.name.replace(/\.\w+$/, ''),
+                  link: basePath + c.pPath.replace(/\.\w+$/, '')
+                }
+              })
+            }
+          }
           return {
             // 将文件名后缀去掉
             text: child.name.replace(/\.\w+$/, ''),

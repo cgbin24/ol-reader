@@ -11,28 +11,27 @@ const PdfJsWorkerSrc = `data:text/javascript;base64,${(base64_encode(workerStr))
 const props = defineProps({
   src: [String, ArrayBuffer],
   requestOptions: {
-      type: Object,
-      default: () => ({})
+    type: Object,
+    default: () => ({})
   },
   staticFileUrl: {
-      type: String,
-      default: 'https://unpkg.com/pdfjs-dist@3.1.81/'
+    type: String,
+    default: 'https://unpkg.com/pdfjs-dist@3.1.81/'
   },
   options: {
-      type: Object,
-      default: () => ({})
+    type: Object,
+    default: () => ({})
   }
-})
-const emits = defineEmits(['rendered', 'error'])
+});
+const emits = defineEmits(['rendered', 'error']);
 let pdfDocument = null;
 let loadingTask = null;
 const wrapperRef = ref(null);
-const rootRef = ref([]);
+const canvasRef = ref(null);
 const numPages = ref(0);
 const curIndex = ref(0);  // 当前页码
 const loading = ref(false);
 const lazySize = 5;
-
 
 watch(() => props.src, () => {
   checkPdfLib().then(init).catch(e => {
@@ -49,11 +48,11 @@ onMounted(() => {
         loading.value = false;
       });
     }
-  })
+  });
 });
 
-onBeforeUnmount(()=>{
-  if(pdfDocument === null){
+onBeforeUnmount(() => {
+  if (pdfDocument === null) {
     return;
   }
   pdfDocument.destroy();
@@ -69,14 +68,14 @@ const installPdfScript = () => {
       return Promise.reject('window.pdfjsLib未找到');
     }
   });
-}
+};
 
 const checkPdfLib = () => {
   if (window.pdfjsLib) {
     return Promise.resolve();
   }
   return installPdfScript();
-}
+};
 
 const init = () => {
   if (!props.src) {
@@ -88,26 +87,23 @@ const init = () => {
     url: getUrl(props.src),
     httpHeaders: props.requestOptions && props.requestOptions.headers,
     withCredentials: props.requestOptions && props.requestOptions.withCredentials,
-    cMapUrl: `${props.staticFileUrl.endsWith('/') ? props.staticFileUrl : props.staticFileUrl + '/'}cmaps/`,
+    // cMapUrl: `${props.staticFileUrl.endsWith('/') ? props.staticFileUrl : props.staticFileUrl + '/'}cmaps/`,
     cMapPacked: true,
     enableXfa: true,
-    // ...omit(props.options, ['width'])
   });
   loadingTask.promise.then((pdf) => {
     pdfDocument && pdfDocument.destroy();
     pdfDocument = pdf;
     numPages.value = props.options.lazy ? Math.min(pdfDocument.numPages, lazySize) : pdfDocument.numPages;
-    setTimeout(()=>{
-      renderPage(1);
-    });
+    renderPage(1);
   }).catch((e) => {
     emits('error', e);
     loading.value = false;
   });
-}
+};
 
-const onScrollPdf = (e) => {
-  if(!props.options.lazy){
+const handleScrollPdf = (e) => {
+  if (!props.options.lazy) {
     return;
   }
   const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -121,14 +117,14 @@ const onScrollPdf = (e) => {
       renderPage(oldNum + 1);
     }
   }
-}
+};
 
 const renderPage = (num) => {
   pdfDocument.getPage(num).then((pdfPage) => {
     const viewport = pdfPage.getViewport({ scale: 2 });
-    const outputScale =  window.devicePixelRatio > 2 ? 1.5 : 2;
+    const outputScale = window.devicePixelRatio > 2 ? 1.5 : 2;
 
-    const canvas = rootRef.value[num - 1];
+    const canvas = canvasRef.value;
     const ctx = canvas.getContext('2d');
 
     canvas.width = Math.floor(viewport.width * outputScale);
@@ -141,7 +137,7 @@ const renderPage = (num) => {
       domWidth = Math.floor(props.options.width);
       domHeight = Math.floor(domHeight * scale);
     }
-    // let wrapperWidth = wrapperRef.value.getBoundingClientRect().width - 20;
+
     let wrapperWidth = wrapperRef.value.getBoundingClientRect().width;
     if (domWidth > wrapperWidth) {
       let scale = wrapperWidth / domWidth;
@@ -162,68 +158,77 @@ const renderPage = (num) => {
       viewport
     });
     renderTask.promise.then(() => {
-      if (numPages.value > num) {
-        renderPage(num + 1);
-      } else {
-        emits('rendered');
-        loading.value = false;
-      }
+      emits('rendered');
+      loading.value = false;
     }).catch((e) => {
       emits('error', e);
       loading.value = false;
     });
   }).catch((e) => {
-      emits('error', e);
+    emits('error', e);
   });
-
-}
+};
 
 const changePage = (type) => {
   if (type === '+') {
     if (curIndex.value < numPages.value - 1) {
       curIndex.value++;
+    } else {
+      return;
     }
   } else {
     if (curIndex.value > 0) {
       curIndex.value--;
+    } else {
+      return;
     }
   }
-}
+  renderPage(curIndex.value + 1);
+};
 </script>
 
 <template>
   <div class="pageWrap">
-    <div class="pdf-viewer" ref="pdf-viewer" style="text-align: center;overflow-y: auto;" @scroll="onScrollPdf">
-      <div v-if="numPages" ref="wrapperRef" class="pdf-viewer-wrapper" style="background: #ccc; padding: 0;position: relative;">
-        <canvas v-for="(page, i) in numPages" ref="rootRef" :key="page" style="width:100%" v-show="i === curIndex" />
+    <div class="pdfViewer" ref="pdfViewer" @scroll="handleScrollPdf">
+      <div v-if="numPages" ref="wrapperRef" class="pdfViewerWrap">
+        <canvas ref="canvasRef" style="width:100%" />
       </div>
     </div>
-    <div class="page-tool">
-      <div class="page-tool-item" @click="changePage('-')">pre</div>
-      <div class="page-tool-item" @click="changePage('+')">next</div>
-      <div class="page-tool-item">{{curIndex + 1}} / {{numPages}}</div>
+    <!-- 页码切换器 -->
+    <div class="pageActions">
+      <div class="items" @click="changePage('-')">pre</div>
+      <div class="items" @click="changePage('+')">next</div>
+      <div class="items">{{curIndex + 1}} / {{numPages}}</div>
     </div>
     <!-- loading -->
     <div v-if="loading" class="loading">
-      <div class="loading-content">
-        <div class="loading-icon"></div>
-        <div class="loading-text">Loading...</div>
+      <div class="loadingCont">
+        <div class="loadingIcon"></div>
+        <div class="loadingText">Loading...</div>
       </div>
     </div>
   </div>
 </template>
-<style lang="scss">
+
+<style lang="scss" scoped>
 @media (max-width: 768px) {
   .VPDoc.has-sidebar.has-aside {
-    padding: 0 !important;
+    padding: 0;
     .VPDocFooter {
-        padding: 32px 24px 96px;
+      padding: 32px 24px 96px;
     }
   }
 }
 .pageWrap {
   position: relative;
-  .page-tool {
+  .pdfViewerWrap {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 0;
+    border-radius: 4px;
+  }
+  .pageActions {
     position: absolute;
     top: 10px;
     right: 0px;
@@ -231,8 +236,7 @@ const changePage = (type) => {
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    z-index: 999;
-    .page-tool-item {
+    .items {
       user-select: none;
       min-width: 80px;
       padding: 4px 12px;
@@ -254,12 +258,12 @@ const changePage = (type) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    .loading-content {
+    .loadingCont {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      .loading-icon {
+      .loadingIcon {
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -275,7 +279,7 @@ const changePage = (type) => {
           transform: rotate(360deg);
         }
       }
-      .loading-text {
+      .loadingText {
         color: #fff;
       }
     }

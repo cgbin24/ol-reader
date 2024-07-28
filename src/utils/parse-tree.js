@@ -10,6 +10,10 @@ function parseTree(dir) {
   for (const file of files) {
     const filePath = path.resolve(dir, file);
     const stat = fs.statSync(filePath);
+    // 排除配置文件，如 .DS_Store
+    if (file.startsWith('.')) {
+      continue;
+    }
     if (stat.isDirectory()) {
       result.push({
         name: file,
@@ -19,8 +23,7 @@ function parseTree(dir) {
         pPath: filePath.split('public')[1],
         children: parseTree(filePath)
       });
-    }
-    else {
+    } else {
       result.push({
         name: file,
         path: filePath,
@@ -29,21 +32,51 @@ function parseTree(dir) {
       });
     }
   }
-  // console.log(result);
-  return result;
+  return sortTree(result, 'name');
+}
+
+// 按指定类型排序目录树
+function sortTree(tree, sortType) {
+  return tree.sort((a, b) => {
+    const numA = parseFloat(a[sortType]);
+    const numB = parseFloat(b[sortType]);
+    // 如果两者都是数字，则按数字大小排序
+    if (!isNaN(numA) && !isNaN(numB)) {
+      return numA - numB;
+    }
+    // 如果只有一个是数字，则优先考虑数字
+    if (!isNaN(numA)) return -1;
+    if (!isNaN(numB)) return 1;
+    // 如果两者都不是数字，则将它们作为字符串进行比较
+    return a[sortType].localeCompare(b[sortType], 'zh');
+  });
+}
+
+// 清空目录，即删除目录下所有文件
+function clearDir(dir, delCurDir = false) {
+  if (fs.existsSync(dir)) {
+    const files = fs.readdirSync(dir);
+    for (const file of files) {
+      const filePath = path.resolve(dir, file);
+      const stat = fs.statSync(filePath);
+      if (stat.isDirectory()) {
+        fs.rmdirSync(filePath, { recursive: true });
+      } else {
+        fs.unlinkSync(filePath);
+      }
+    }
+  }
+  if (delCurDir) {
+    fs.rmdirSync(dir);
+  }
 }
 
 // 将目录树输出到指定文件夹，内容转为md文件
 function treeToMd(treeObj, dir) {
   // 当前目录存在时，先将内容清空
-  if (fs.existsSync(path.resolve(dir, treeObj.name))) {
-    const files = fs.readdirSync(path.resolve(dir, treeObj.name));
-    for (const file of files) {
-      fs.unlinkSync(path.resolve(dir, treeObj.name, file));
-    }
-  }
+  clearDir(path.resolve(dir, treeObj.name));
   if (treeObj.children) {
-    // console.log('dir:', dir, 'name:', treeObj.name, path.resolve(dir, treeObj.name));
+    // console.log('====> dir:', dir, 'name:', treeObj.name, path.resolve(dir, treeObj.name));
     fs.mkdirSync(path.resolve(dir, treeObj.name), { recursive: true });
     for (const item of treeObj.children) {
       if (item.children) {
@@ -58,8 +91,8 @@ function treeToMd(treeObj, dir) {
 
 // md文件模板
 const mdTemp = (path) => {
-  console.log(1);
-  console.log(path);
+  // console.log(1);
+  // console.log(path);
   // <PdfViewer pdfUrl="${path}"/>
   return `
 <PdfViewer src="${path}"/>
