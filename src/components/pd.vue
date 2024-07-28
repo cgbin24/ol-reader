@@ -224,17 +224,17 @@ const showToast = (msg) => {
     flex-direction: column;
     align-items: center;
     gap: 4px;
+    .page-tool-item {
+      user-select: none;
+      min-width: 80px;
+      padding: 4px 12px;
+      text-align: center;
+      border-radius: 19px;
+      background: rgba(0, 0, 0, 0.2);
+      color: #fff;
+    }
   }
 
-  .page-tool-item {
-    user-select: none;
-    min-width: 80px;
-    padding: 4px 12px;
-    text-align: center;
-    border-radius: 19px;
-    background: rgba(0, 0, 0, 0.2);
-    color: #fff;
-  }
 }
 .loading {
   position: fixed;

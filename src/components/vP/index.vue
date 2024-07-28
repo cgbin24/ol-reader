@@ -1,10 +1,9 @@
 <script setup>
-import { defineComponent, ref, onMounted, watch, onBeforeUnmount } from 'vue-demi';
+import { ref, onMounted, watch, onBeforeUnmount, nextTick } from 'vue-demi';
 import workerStr from './worker?raw';
 import pdfjsLib from './pdf?raw';
 import { download as downloadFile, getUrl, loadScript } from '../../utils/url';
 import { base64_encode } from '../../utils/base64';
-// import omit from 'lodash/omit';
 
 const pdfJsLibSrc = `data:text/javascript;base64,${(base64_encode(pdfjsLib))}`;
 const PdfJsWorkerSrc = `data:text/javascript;base64,${(base64_encode(workerStr))}`;
@@ -30,9 +29,28 @@ let loadingTask = null;
 const wrapperRef = ref(null);
 const rootRef = ref([]);
 const numPages = ref(0);
+const curIndex = ref(0);  // 当前页码
 const loading = ref(false);
-
 const lazySize = 5;
+
+
+watch(() => props.src, () => {
+  checkPdfLib().then(init).catch(e => {
+    console.warn(e);
+  });
+});
+
+onMounted(() => {
+  loading.value = true;
+  nextTick(() => {
+    if (props.src) {
+      checkPdfLib().then(init).catch(e => {
+        console.warn(e);
+        loading.value = false;
+      });
+    }
+  })
+});
 
 onBeforeUnmount(()=>{
   if(pdfDocument === null){
@@ -42,6 +60,7 @@ onBeforeUnmount(()=>{
   pdfDocument = null;
   loadingTask = null;
 });
+
 const installPdfScript = () => {
   return loadScript(pdfJsLibSrc).then(() => {
     if (window.pdfjsLib) {
@@ -122,7 +141,8 @@ const renderPage = (num) => {
       domWidth = Math.floor(props.options.width);
       domHeight = Math.floor(domHeight * scale);
     }
-    let wrapperWidth = wrapperRef.value.getBoundingClientRect().width - 20;
+    // let wrapperWidth = wrapperRef.value.getBoundingClientRect().width - 20;
+    let wrapperWidth = wrapperRef.value.getBoundingClientRect().width;
     if (domWidth > wrapperWidth) {
       let scale = wrapperWidth / domWidth;
       domWidth = Math.floor(wrapperWidth);
@@ -158,80 +178,106 @@ const renderPage = (num) => {
 
 }
 
-const rerender = () =>{
-    renderPage(1);
-}
-onMounted(() => {
-  loading.value = true;
-  if (props.src) {
-    checkPdfLib().then(init).catch(e => {
-      console.warn(e);
-      loading.value = false;
-    });
+const changePage = (type) => {
+  if (type === '+') {
+    if (curIndex.value < numPages.value - 1) {
+      curIndex.value++;
+    }
+  } else {
+    if (curIndex.value > 0) {
+      curIndex.value--;
+    }
   }
-});
-
-watch(() => props.src, () => {
-  checkPdfLib().then(init).catch(e => {
-    console.warn(e);
-  });
-});
-const save = (fileName)  => {
-  pdfDocument && pdfDocument._transport && pdfDocument._transport.getData().then(fileData => {
-    downloadFile(fileName || `vue-office-pdf-${new Date().getTime()}.pdf`, fileData.buffer);
-  });
 }
 </script>
 
 <template>
-  <div class="vue-office-pdf" ref="vue-office-pdf" style="text-align: center;overflow-y: auto;" @scroll="onScrollPdf">
-    <div v-if="numPages" ref="wrapperRef" class="vue-office-pdf-wrapper" style="background: #ccc; padding: 10px 0;position: relative;">
-      <canvas v-for="page in numPages" ref="rootRef" :key="page" style="width:100%" />
+  <div class="pageWrap">
+    <div class="pdf-viewer" ref="pdf-viewer" style="text-align: center;overflow-y: auto;" @scroll="onScrollPdf">
+      <div v-if="numPages" ref="wrapperRef" class="pdf-viewer-wrapper" style="background: #ccc; padding: 0;position: relative;">
+        <canvas v-for="(page, i) in numPages" ref="rootRef" :key="page" style="width:100%" v-show="i === curIndex" />
+      </div>
     </div>
-  </div>
-  <!-- loading -->
-  <div v-if="loading" class="loading">
-    <div class="loading-content">
-      <div class="loading-icon"></div>
-      <div class="loading-text">Loading...</div>
+    <div class="page-tool">
+      <div class="page-tool-item" @click="changePage('-')">pre</div>
+      <div class="page-tool-item" @click="changePage('+')">next</div>
+      <div class="page-tool-item">{{curIndex + 1}} / {{numPages}}</div>
+    </div>
+    <!-- loading -->
+    <div v-if="loading" class="loading">
+      <div class="loading-content">
+        <div class="loading-icon"></div>
+        <div class="loading-text">Loading...</div>
+      </div>
     </div>
   </div>
 </template>
 <style lang="scss">
-.loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .loading-content {
+@media (max-width: 768px) {
+  .VPDoc.has-sidebar.has-aside {
+    padding: 0 !important;
+    .VPDocFooter {
+        padding: 32px 24px 96px;
+    }
+  }
+}
+.pageWrap {
+  position: relative;
+  .page-tool {
+    position: absolute;
+    top: 10px;
+    right: 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    .loading-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 4px solid #fff;
-      border-top-color: #ccc;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-    .loading-text {
+    gap: 4px;
+    z-index: 999;
+    .page-tool-item {
+      user-select: none;
+      min-width: 80px;
+      padding: 4px 12px;
+      text-align: center;
+      border-radius: 19px;
+      background: rgba(0, 0, 0, 0.2);
       color: #fff;
+    }
+  }
+  
+  .loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .loading-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      .loading-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        border-top-color: #ccc;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .loading-text {
+        color: #fff;
+      }
     }
   }
 }
