@@ -196,9 +196,13 @@ const changePage = (type) => {
     </div>
     <!-- 页码切换器 -->
     <div class="pageActions" v-if="numPages">
-      <div class="items" @click="changePage('-')">pre</div>
-      <div class="items" @click="changePage('+')">next</div>
-      <div class="items">{{curIndex + 1}} / {{numPages}}</div>
+      <section class="actionBlock">
+        <div class="items">{{curIndex + 1}} / {{numPages}}</div>
+      </section>
+      <section class="actionBlock">
+        <div class="items" @click="changePage('-')"> <- pre </div>
+        <div class="items" @click="changePage('+')"> next -> </div>
+      </section>
     </div>
     <!-- loading -->
     <div v-if="loading" class="loading">
@@ -230,20 +234,23 @@ const changePage = (type) => {
   }
   .pageActions {
     position: absolute;
-    top: 10px;
-    right: 0px;
+    bottom: -34px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    gap: 4px;
-    .items {
-      user-select: none;
-      min-width: 80px;
-      padding: 4px 12px;
-      text-align: center;
-      border-radius: 19px;
-      background: rgba(0, 0, 0, 0.2);
-      color: #fff;
+    width: 100%;
+    .actionBlock {
+      display: flex;
+      gap: 4px;
+      .items {
+        user-select: none;
+        min-width: 60px;
+        padding: 2px 10px;
+        text-align: center;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.2);
+        color: #fff;
+      }
     }
   }
   
