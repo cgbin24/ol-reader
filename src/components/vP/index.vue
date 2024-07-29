@@ -1,3 +1,30 @@
+<template>
+  <div class="pageWrap">
+    <div class="pdfViewer" ref="pdfViewer" @scroll="handleScrollPdf">
+      <div v-if="numPages" ref="wrapperRef" class="pdfViewerWrap">
+        <canvas ref="canvasRef" style="width:100%" />
+      </div>
+    </div>
+    <!-- 页码切换器 -->
+    <div class="pageActions" v-if="numPages">
+      <section class="actionBlock">
+        <div class="items">{{curIndex + 1}} / {{numPages}}</div>
+      </section>
+      <section class="actionBlock">
+        <div class="items" v-show="curIndex > 0" @click="changePage('-')"> <- prev </div>
+        <div class="items" v-show="curIndex < numPages - 1" @click="changePage('+')"> next -> </div>
+      </section>
+    </div>
+    <!-- loading -->
+    <div v-if="loading" class="loading">
+      <div class="loadingCont">
+        <div class="loadingIcon"></div>
+        <div class="loadingText">Loading...</div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref, onMounted, watch, onBeforeUnmount, nextTick } from 'vue-demi';
 import workerStr from './worker?raw';
@@ -186,33 +213,6 @@ const changePage = (type) => {
   renderPage(curIndex.value + 1);
 };
 </script>
-
-<template>
-  <div class="pageWrap">
-    <div class="pdfViewer" ref="pdfViewer" @scroll="handleScrollPdf">
-      <div v-if="numPages" ref="wrapperRef" class="pdfViewerWrap">
-        <canvas ref="canvasRef" style="width:100%" />
-      </div>
-    </div>
-    <!-- 页码切换器 -->
-    <div class="pageActions" v-if="numPages">
-      <section class="actionBlock">
-        <div class="items">{{curIndex + 1}} / {{numPages}}</div>
-      </section>
-      <section class="actionBlock">
-        <div class="items" @click="changePage('-')"> <- pre </div>
-        <div class="items" @click="changePage('+')"> next -> </div>
-      </section>
-    </div>
-    <!-- loading -->
-    <div v-if="loading" class="loading">
-      <div class="loadingCont">
-        <div class="loadingIcon"></div>
-        <div class="loadingText">Loading...</div>
-      </div>
-    </div>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 @media (max-width: 768px) {
