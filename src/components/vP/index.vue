@@ -87,7 +87,7 @@ const init = () => {
     url: getUrl(props.src),
     httpHeaders: props.requestOptions && props.requestOptions.headers,
     withCredentials: props.requestOptions && props.requestOptions.withCredentials,
-    // cMapUrl: `${props.staticFileUrl.endsWith('/') ? props.staticFileUrl : props.staticFileUrl + '/'}cmaps/`,
+    cMapUrl: `${props.staticFileUrl.endsWith('/') ? props.staticFileUrl : props.staticFileUrl + '/'}cmaps/`,
     cMapPacked: true,
     enableXfa: true,
   });
@@ -195,7 +195,7 @@ const changePage = (type) => {
       </div>
     </div>
     <!-- 页码切换器 -->
-    <div class="pageActions">
+    <div class="pageActions" v-if="numPages">
       <div class="items" @click="changePage('-')">pre</div>
       <div class="items" @click="changePage('+')">next</div>
       <div class="items">{{curIndex + 1}} / {{numPages}}</div>
