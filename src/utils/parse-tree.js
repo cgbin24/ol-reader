@@ -4,7 +4,8 @@ import path from 'path'
 
 
 // 解析目录树
-function parseTree(dir) {
+function parseTree(dir, sourcePath = 'public') {
+  console.log('dir:', dir, sourcePath);
   const files = fs.readdirSync(dir);
   const result = [];
   for (const file of files) {
@@ -20,15 +21,15 @@ function parseTree(dir) {
         path: filePath,
         dir: dir,
         // pPath, 相对于public目录的路径+文件名
-        pPath: filePath.split('public')[1],
-        children: parseTree(filePath)
+        pPath: filePath.split(sourcePath)[1],
+        children: parseTree(filePath, sourcePath),
       });
     } else {
       result.push({
         name: file,
         path: filePath,
         dir: dir,
-        pPath: filePath.split('public')[1],
+        pPath: filePath.split(sourcePath)[1],
       });
     }
   }
@@ -60,14 +61,14 @@ function clearDir(dir, delCurDir = false) {
       const filePath = path.resolve(dir, file);
       const stat = fs.statSync(filePath);
       if (stat.isDirectory()) {
-        fs.rmdirSync(filePath, { recursive: true });
+        fs.rmSync(filePath, { recursive: true });
       } else {
         fs.unlinkSync(filePath);
       }
     }
   }
   if (delCurDir) {
-    fs.rmdirSync(dir);
+    fs.rmSync(dir);
   }
 }
 
@@ -81,9 +82,14 @@ function treeToMd(treeObj, dir) {
     for (const item of treeObj.children) {
       if (item.children) {
         treeToMd(item, path.resolve(dir, treeObj.name));
-      }
-      else {
-        fs.writeFileSync(path.resolve(dir, treeObj.name, item.name.replace(/\.\w+$/, '') + '.md'), mdTemp(item.pPath));
+      } else {
+        // 如果为md文件，则将内容写入文件
+        if (item.name.endsWith('.md')) {
+          fs.writeFileSync(path.resolve(dir, treeObj.name, item.name), fs.readFileSync(item.path, 'utf-8'));
+        } else {
+          // 如果为pdf文件，则将内容写入md文件
+          fs.writeFileSync(path.resolve(dir, treeObj.name, item.name.replace(/\.\w+$/, '') + '.md'), mdTemp(item.pPath));
+        }
       }
     }
   }
@@ -95,7 +101,7 @@ const mdTemp = (path) => {
   // console.log(path);
   // <PdfViewer pdfUrl="${path}"/>
   return `
-<PdfViewer src="${path}"/>
+<PdfViewer src="/source${path}"/>
 
 <script setup>
   // import PdfViewer from '/components/pdfViewer.vue'

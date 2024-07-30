@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    body, html {
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+    /* .box { */
+    body,:not(:root):fullscreen::backdrop {
+      width: 100vw;
+      height: 100vh;
+      box-sizing: border-box;
+      background: url('https://img1.baidu.com/it/u=3893389324,4043822814&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800') no-repeat center center fixed; 
+      background-size: cover;
+    }
+  </style>
+</head>
+<body>
+  <!-- <div class="box"></div> -->
+  <script>
+    let body = document.querySelector('body')
+    body.addEventListener('click', function(e) {
+      // 开启全屏
+      if (body.requestFullscreen) {
+        body.requestFullscreen();
+      } else if (body.mozRequestFullScreen) { /* Firefox */
+        body.mozRequestFullScreen();
+      } else if (body.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        body.webkitRequestFullscreen();
+      } else if (body.msRequestFullscreen) { /* IE/Edge */
+        body.msRequestFullscreen();
+      }
+    })
+    // 双击退出全屏
+    body.addEventListener('dbclick', function(e) {
+      // body.exitFullscreen()
+      if (body.exitFullscreen) {
+        body.exitFullscreen();
+      } else if (body.mozCancelFullScreen) { /* Firefox */
+        body.mozCancelFullScreen();
+      } else if (body.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        body.webkitExitFullscreen();
+      } else if (body.msExitFullscreen) { /* IE/Edge */
+        body.msExitFullscreen();
+      }
+    })
+
+  </script>
+</body>
+</html>
