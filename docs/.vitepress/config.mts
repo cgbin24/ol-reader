@@ -12,6 +12,7 @@ export default defineConfig({
   srcDir: '../src',
   outDir: '../dist',
   markdown: {
+    math: true,
     config: (md) => {
       md.use((md) => {
         const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
