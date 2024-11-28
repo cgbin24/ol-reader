@@ -13,6 +13,7 @@ node_modules
 *.local
 i-reader
 /i-reader/*
+cache
 /cache
 /cache/*
 /.vscode
