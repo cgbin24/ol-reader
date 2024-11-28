@@ -358,7 +358,7 @@ N =
     ]
 ```
 
-参考上一节的矩阵乘法， $ N×M $的算法表示如下：
+参考上一节的矩阵乘法， $N×M $的算法表示如下：
 ```js
 // 此处的 prev 代表 M，next 代表 N
 function multiply(next, prev, target){
@@ -452,10 +452,10 @@ function multiplyScalar(m, scalar){
 
 转置矩阵其实就是将原矩阵的行变成列。 有一个矩阵 M ：
 
-$ \Bigg(\begin{matrix} 1 & 2 & 3 & 4 \\ 5 & 6 & 7 & 8 \\ 9 & 10 & 11 & 12 \\ 13 & 14 & 15 & 16 \end{matrix}\Bigg)$
+$\Bigg(\begin{matrix} 1 & 2 & 3 & 4 \\ 5 & 6 & 7 & 8 \\ 9 & 10 & 11 & 12 \\ 13 & 14 & 15 & 16 \end{matrix}\Bigg)$
 
 M 的转置矩阵： 
-$ \Bigg(\begin{matrix} 1 & 5 & 9 & 13 \\ 2 & 6 & 10 & 14 \\ 3 & 7 & 11 & 15 \\ 4 & 8 & 12 & 16 \end{matrix}\Bigg)$
+$\Bigg(\begin{matrix} 1 & 5 & 9 & 13 \\ 2 & 6 & 10 & 14 \\ 3 & 7 & 11 & 15 \\ 4 & 8 & 12 & 16 \end{matrix}\Bigg)$
 
 我们转置函数接收一个输入参数，表示待转置的矩阵，用m 表示：
 
@@ -514,7 +514,7 @@ function transpose(m, target){
 
 例如m00，就代表处于第一行第一列的元素。
 
-$ \Bigg(\begin{matrix} 00 & 01 & 02 & 03 \\ 10 & 11 & 12 & 13 \\ 20 & 21 & 22 & 23 \\ 30 & 31 & 32 & 33 \end{matrix}\Bigg)$
+$\Bigg(\begin{matrix} 00 & 01 & 02 & 03 \\ 10 & 11 & 12 & 13 \\ 20 & 21 & 22 & 23 \\ 30 & 31 & 32 & 33 \end{matrix}\Bigg)$
 
 ```js
 function inverse(m){
