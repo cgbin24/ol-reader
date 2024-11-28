@@ -13,6 +13,9 @@ export default defineConfig({
   outDir: '../dist',
   markdown: {
     math: true,
+    image: {
+      lazyLoading: true,
+    },
     config: (md) => {
       md.use((md) => {
         const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
