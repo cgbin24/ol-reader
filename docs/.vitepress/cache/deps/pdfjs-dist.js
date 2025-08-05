@@ -5,7 +5,7 @@ import {
   __privateSet,
   __privateWrapper,
   __publicField
-} from "./chunk-KPM4MXSK.js";
+} from "./chunk-BO4YYYGR.js";
 
 // node_modules/pdfjs-dist/build/pdf.mjs
 var __webpack_require__ = {};
@@ -5590,16 +5590,16 @@ if (isNodeJS) {
   const loadPackages = async () => {
     const fs = await import(
       /*webpackIgnore: true*/
-      "./fs-D7XOTJVE.js"
+      "./fs-VQRN3CPQ.js"
     ), http = await import(
       /*webpackIgnore: true*/
-      "./http-RAHQ4BDF.js"
+      "./http-23QVZDYN.js"
     ), https = await import(
       /*webpackIgnore: true*/
-      "./https-GVBVESCW.js"
+      "./https-SL7CKXXY.js"
     ), url = await import(
       /*webpackIgnore: true*/
-      "./url-CPNWJTZD.js"
+      "./url-A57J2HQC.js"
     );
     let canvas, path2d;
     return new Map(Object.entries({

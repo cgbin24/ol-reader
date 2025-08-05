@@ -18,6 +18,7 @@ cache
 /cache/*
 /.vscode
 /.vscode/*
+docs/.vitepress/cache
 
 # Editor directories and files
 .idea
