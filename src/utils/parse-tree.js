@@ -12,7 +12,7 @@ function parseTree(dir, sourcePath = 'public') {
     const filePath = path.resolve(dir, file);
     const stat = fs.statSync(filePath);
     // 排除配置文件，如 .DS_Store
-    if (file.startsWith('.')) {
+    if (file.startsWith('.') || file.startsWith('_') || file.startsWith('~') || file.startsWith('index') || file.startsWith('index') || file.startsWith('README') || file.startsWith('LICENSE')) {
       continue;
     }
     if (stat.isDirectory()) {
