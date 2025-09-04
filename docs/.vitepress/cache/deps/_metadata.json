@@ -1,73 +1,61 @@
 {
-  "hash": "1633e8e9",
+  "hash": "884f2624",
   "configHash": "4271d87f",
-  "lockfileHash": "92fb5fee",
-  "browserHash": "f687c161",
+  "lockfileHash": "ce7c1e07",
+  "browserHash": "528f755f",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "148455ad",
+      "fileHash": "a91f93c2",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/dist/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "b52817e1",
+      "fileHash": "b58e1817",
       "needsInterop": false
     },
     "vitepress > @vueuse/core": {
       "src": "../../../../node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "df0771c5",
+      "fileHash": "898d76b5",
       "needsInterop": false
     },
     "pdfjs-dist": {
       "src": "../../../../node_modules/pdfjs-dist/build/pdf.mjs",
       "file": "pdfjs-dist.js",
-      "fileHash": "f9445edf",
+      "fileHash": "105805e3",
       "needsInterop": false
     },
     "vue-pdf-embed": {
       "src": "../../../../node_modules/vue-pdf-embed/dist/index.mjs",
       "file": "vue-pdf-embed.js",
-      "fileHash": "3e8abbb3",
+      "fileHash": "0df591fb",
       "needsInterop": false
     },
     "@theme/index": {
       "src": "../../../../node_modules/vitepress/dist/client/theme-default/index.js",
       "file": "@theme_index.js",
-      "fileHash": "a98bac90",
+      "fileHash": "b1924b98",
       "needsInterop": false
     },
     "vue-demi": {
       "src": "../../../../node_modules/vue-demi/lib/index.mjs",
       "file": "vue-demi.js",
-      "fileHash": "ee285eff",
+      "fileHash": "503885eb",
       "needsInterop": false
     }
   },
   "chunks": {
-    "http-23QVZDYN": {
-      "file": "http-23QVZDYN.js"
+    "chunk-G65E3SCJ": {
+      "file": "chunk-G65E3SCJ.js"
     },
-    "https-SL7CKXXY": {
-      "file": "https-SL7CKXXY.js"
+    "chunk-V2GVYV63": {
+      "file": "chunk-V2GVYV63.js"
     },
-    "url-A57J2HQC": {
-      "file": "url-A57J2HQC.js"
-    },
-    "chunk-HNAFQNVY": {
-      "file": "chunk-HNAFQNVY.js"
-    },
-    "chunk-MT3WJYUT": {
-      "file": "chunk-MT3WJYUT.js"
-    },
-    "fs-VQRN3CPQ": {
-      "file": "fs-VQRN3CPQ.js"
-    },
-    "chunk-BO4YYYGR": {
-      "file": "chunk-BO4YYYGR.js"
+    "chunk-XGM4GKIC": {
+      "file": "chunk-XGM4GKIC.js"
     }
   }
 }
