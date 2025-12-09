@@ -82,8 +82,8 @@ export default defineConfig({
     logo: '/static/favicon.png',
     nav: [
       { text: '主页', link: '/' },
-      // { text: '目录', link: '/i-reader/pdfviewer/ruankao/', activeMatch: '/i-reader/',  },
-      { text: '目录', link: '/i-reader/', activeMatch: '/i-reader/',  },
+      { text: '目录', link: '/i-reader/pdfviewer/ruankao/', activeMatch: '/i-reader/',  },
+      // { text: '目录', link: '/i-reader/', activeMatch: '/i-reader/',  },
       { text: 'xiaoce', link: '/mdviewer/XIAOCE/', activeMatch: '/mdviewer/' },
     ],
     sidebar: {
