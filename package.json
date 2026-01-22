@@ -9,7 +9,7 @@
     "@types/node": "^20.14.12",
     "markdown-it-mathjax3": "^4.3.2",
     "vite-plugin-top-level-await": "^1.4.2",
-    "vitepress": "^1.6.4"
+    "vitepress": "^2.0.0-alpha.15"
   },
   "dependencies": {
     "markdown-it": "^14.1.0",
